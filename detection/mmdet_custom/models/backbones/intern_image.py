@@ -607,28 +607,28 @@ class InternImage(BaseModule):
         logger.info(msg)
 
 
-def _init_weights(self, m):
-    if isinstance(m, nn.Linear):
-        trunc_normal_(m.weight, std=.02)
-        if m.bias is not None:
+    def _init_weights(self, m):
+        if isinstance(m, nn.Linear):
+            trunc_normal_(m.weight, std=.02)
+            if m.bias is not None:
+                nn.init.constant_(m.bias, 0)
+        elif isinstance(m, nn.LayerNorm):
             nn.init.constant_(m.bias, 0)
-    elif isinstance(m, nn.LayerNorm):
-        nn.init.constant_(m.bias, 0)
-        nn.init.constant_(m.weight, 1.0)
+            nn.init.constant_(m.weight, 1.0)
 
 
-def _init_deform_weights(self, m):
-    if isinstance(m, getattr(dcnv3, self.core_op)):
-        m._reset_parameters()
+    def _init_deform_weights(self, m):
+        if isinstance(m, getattr(dcnv3, self.core_op)):
+            m._reset_parameters()
 
 
-def forward(self, x):
-    x = self.patch_embed(x)
-    x = self.pos_drop(x)
+    def forward(self, x):
+        x = self.patch_embed(x)
+        x = self.pos_drop(x)
 
-    seq_out = []
-    for level_idx, level in enumerate(self.levels):
-        x, x_ = level(x, return_wo_downsample=True)
-        if level_idx in self.out_indices:
-            seq_out.append(x_.permute(0, 3, 1, 2).contiguous())
-    return seq_out
+        seq_out = []
+        for level_idx, level in enumerate(self.levels):
+            x, x_ = level(x, return_wo_downsample=True)
+            if level_idx in self.out_indices:
+                seq_out.append(x_.permute(0, 3, 1, 2).contiguous())
+        return seq_out
