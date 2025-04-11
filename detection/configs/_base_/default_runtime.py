@@ -3,7 +3,10 @@ default_hooks = dict(
     timer=dict(type='IterTimerHook'),
     logger=dict(type='LoggerHook', interval=50),
     param_scheduler=dict(type='ParamSchedulerHook'),
-    checkpoint=dict(type='CheckpointHook', interval=1, by_epoch=True, save_best=['segm_mAP', 'acc'], rule='greater', max_keep_ckpts=5, filename_tmpl='internimage_L_epoch{}.pth'),
+    checkpoint=dict(type='CheckpointHook', interval=1, by_epoch=True,
+                    save_best=['segm_mAP', 'acc'], rule='greater',
+                    max_keep_ckpts=5,
+                    filename_tmpl='internimage_L_epoch{}.pth'),
     sampler_seed=dict(type='DistSamplerSeedHook'),
     visualization=dict(type='DetVisualizationHook')
 )

@@ -84,6 +84,7 @@ val_evaluator = dict(
     format_only=False,
     backend_args=backend_args)
 test_evaluator = val_evaluator
+print("yee")
 
 # inference on test dataset and
 # format the output results for submission.

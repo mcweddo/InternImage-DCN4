@@ -10,6 +10,8 @@ _base_ = [
     '../_base_/default_runtime.py'
 ]
 pretrained = 'https://huggingface.co/OpenGVLab/InternImage/resolve/main/internimage_l_22k_192to384.pth'
+dataset_type = 'CocoDataset'
+data_root = 'data/coco/'
 model = dict(
     backbone=dict(
         _delete_=True,
@@ -125,6 +127,7 @@ train_pipeline = [
          ]),
     dict(type='PackDetInputs'),
 ]
+print('dosao')
 # we use 4 nodes to train this model, with a total batch size of 64
 train_dataloader = dict(
     batch_size=2,
