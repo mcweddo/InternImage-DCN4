@@ -12,6 +12,7 @@ _base_ = [
 pretrained = 'https://huggingface.co/OpenGVLab/InternImage/resolve/main/internimage_l_22k_192to384.pth'
 dataset_type = 'CocoDataset'
 data_root = 'data/coco/'
+backend_args = None
 model = dict(
     backbone=dict(
         _delete_=True,
@@ -126,6 +127,16 @@ train_pipeline = [
              ]
          ]),
     dict(type='PackDetInputs'),
+]
+test_pipeline = [
+    dict(type='LoadImageFromFile', backend_args=backend_args),
+    dict(type='Resize', scale=(1333, 800), keep_ratio=True),
+    # If you don't have a gt annotation, delete the pipeline
+    dict(type='LoadAnnotations', with_bbox=True, with_mask=True),
+    dict(
+        type='PackDetInputs',
+        meta_keys=('img_id', 'img_path', 'ori_shape', 'img_shape',
+                   'scale_factor'))
 ]
 print('dosao')
 # we use 4 nodes to train this model, with a total batch size of 64
