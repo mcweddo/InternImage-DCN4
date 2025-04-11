@@ -22,7 +22,7 @@ from mmengine.model import BaseModule
 from mmengine.runner import load_checkpoint
 
 # Registration remains via mmdet’s BACKBONES registry:
-from mmdet.models.builder import BACKBONES
+from mmdet.registry import MODELS
 from mmdet.utils import get_root_logger
 
 # (Keep other utility modules as-is.)
@@ -423,7 +423,7 @@ class InternImageBlock(nn.Module):
 # Modified InternImage Backbone using MMEngine's BaseModule
 # --------------------------------------------------------
 
-@BACKBONES.register_module()
+@MODELS.register_module()
 class InternImage(BaseModule):
     r"""InternImage backbone.
 
