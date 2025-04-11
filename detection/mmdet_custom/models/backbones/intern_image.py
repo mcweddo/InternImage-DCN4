@@ -12,7 +12,7 @@ import torch.nn.functional as F
 import torch.utils.checkpoint as checkpoint
 
 # Instead of using MMCV’s legacy initializers and runner, we now import from mmengine.
-from mmcv.cnn import constant_init, trunc_normal_init  # (keep if needed for some layers)
+from mmengine.model import constant_init, trunc_normal_init  # (keep if needed for some layers)
 from timm.models.layers import DropPath, trunc_normal_
 
 # Import the new BaseModule from MMEngine instead of plain nn.Module:
