@@ -41,3 +41,4 @@ env_cfg = dict(
 log_level = 'INFO'
 load_from = None
 resume = False
+default_scope = 'mmdet'

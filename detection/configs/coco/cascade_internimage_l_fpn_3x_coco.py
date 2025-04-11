@@ -12,6 +12,7 @@ _base_ = [
 pretrained = 'https://huggingface.co/OpenGVLab/InternImage/resolve/main/internimage_l_22k_192to384.pth'
 dataset_type = 'CocoDataset'
 data_root = 'data/coco/'
+default_scope = 'mmdet'
 backend_args = None
 model = dict(
     backbone=dict(
