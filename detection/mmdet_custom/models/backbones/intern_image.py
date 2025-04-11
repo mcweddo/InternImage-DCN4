@@ -23,7 +23,7 @@ from mmengine.runner import load_checkpoint
 
 # Registration remains via mmdet’s BACKBONES registry:
 from mmdet.registry import MODELS
-from mmengine.logging import get_logger
+from mmengine.logging import MMLogger
 
 # (Keep other utility modules as-is.)
 from ops_dcnv3 import modules as dcnv3
@@ -498,7 +498,7 @@ class InternImage(BaseModule):
         self.level2_post_norm_block_ids = level2_post_norm_block_ids
         self.frozen_stages = frozen_stages
 
-        logger = get_logger('mmdetection')
+        logger = MMLogger.get_instance('mmdetection', log_level='INFO')
         logger.info(f'using core type: {core_op}')
         logger.info(f'using activation layer: {act_layer}')
         logger.info(f'using main norm layer: {norm_layer}')
@@ -572,7 +572,7 @@ class InternImage(BaseModule):
         If an init_cfg is provided, use MMEngine's load_checkpoint to load the pretrained weights.
         Otherwise, initialize Linear and LayerNorm weights using trunc_normal_ and constant init.
         """
-        logger = get_logger('mmdetection')
+        logger = MMLogger.get_instance('mmdetection', log_level='INFO')
         if self.init_cfg is None:
             logger.warning(f'No pre-trained weights for {self.__class__.__name__}, training starts from scratch')
             for m in self.modules():
