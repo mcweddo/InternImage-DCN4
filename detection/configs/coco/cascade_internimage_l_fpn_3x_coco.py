@@ -139,11 +139,10 @@ test_pipeline = [
         meta_keys=('img_id', 'img_path', 'ori_shape', 'img_shape',
                    'scale_factor'))
 ]
-print('dosao')
 # we use 4 nodes to train this model, with a total batch size of 64
 train_dataloader = dict(
     batch_size=2,
-    num_workers=2,
+    num_workers=4,
     persistent_workers=True,
     sampler=dict(type='DefaultSampler', shuffle=True),
     batch_sampler=dict(type='AspectRatioBatchSampler'),
@@ -249,3 +248,4 @@ custom_hooks = [
     dict(type='SyncBuffersHook'),
     dict(type='ProfilerHook', on_trace_ready=dict(type='tb_trace'))
 ]
+auto_scale_lr = dict(enable=True, base_batch_size=4)
