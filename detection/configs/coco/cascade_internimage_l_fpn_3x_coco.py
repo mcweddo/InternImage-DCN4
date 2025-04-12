@@ -190,8 +190,30 @@ test_dataloader = dict(
 #     paramwise_cfg=dict(num_layers=37, layer_decay_rate=0.90,
 #                        depths=[5, 5, 22, 5], offset_lr_scale=0.01))
 # optimizer_config = dict(grad_clip=None)
+strategy = dict(
+    type='DeepSpeedStrategy',
+    fp16=dict(
+        enabled=True,
+        fp16_master_weights_and_grads=False,
+        loss_scale=0,
+        loss_scale_window=500,
+        hysteresis=2,
+        min_loss_scale=1,
+        initial_scale_power=15,
+    ),
+    inputs_to_half=[0],
+    zero_optimization=dict(
+        stage=3,
+        allgather_partitions=True,
+        reduce_scatter=True,
+        allgather_bucket_size=50000000,
+        reduce_bucket_size=50000000,
+        overlap_comm=True,
+        contiguous_gradients=True,
+        cpu_offload=False),
+)
 optim_wrapper = dict(
-    type='AmpOptimWrapper',
+    type='DeepSpeedOptimWrapper',
     constructor='CustomLayerDecayOptimizerConstructor',
     paramwise_cfg={
         'num_layers': 37,
@@ -205,7 +227,9 @@ optim_wrapper = dict(
         lr=0.0001 * 2,
         betas=(0.9, 0.999),
         weight_decay=0.05,
-    ))
+    ),
+    # accumulative_counts=4
+)
 # fp16 = dict(loss_scale=dict(init_scale=512))
 # evaluation = dict(save_best='auto')
 checkpoint_config = dict(
